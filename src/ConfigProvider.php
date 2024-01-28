@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace Axleus;
 
 use Axleus\Constants;
+use Axleus\CommandBus;
 use Laminas\EventManager\EventManager;
 use Laminas\EventManager\EventManagerInterface;
 use Laminas\EventManager\SharedEventManager;
 use Laminas\EventManager\SharedEventManagerInterface;
 use Laminas\Stratigility\Middleware\ErrorHandler;
+// use League\Tactician\CommandBus;
 //use League\Tactician\CommandEvents\EventMiddleware;
 use League\Tactician\Plugins\NamedCommand\NamedCommandExtractor;
 use Mezzio\Application;
@@ -23,6 +25,7 @@ use Mezzio\Router\Middleware\ImplicitOptionsMiddleware;
 use Mezzio\Router\Middleware\MethodNotAllowedMiddleware;
 use Mezzio\Router\Middleware\RouteMiddleware;
 use Mezzio\Session\SessionMiddleware;
+use Psr\EventDispatcher\ListenerProviderInterface;
 use TacticianModule\Locator\ClassnameLaminasLocator;
 
 class ConfigProvider
@@ -52,12 +55,11 @@ class ConfigProvider
             ],
             'factories' => [
                 EventManager::class                       => EventManagerFactory::class,
-                //EventMiddleware::class                    => CommandBus\EventMiddlewareFactory::class,
-                CommandBus\Event\EventMiddleware::class        => CommandBus\EventMiddlewareFactory::class,
+                CommandBus\Event\EventMiddleware::class   => CommandBus\Event\EventMiddlewareFactory::class,
+                CommandBus\Listener\CommandBusListener::class => CommandBus\Listener\CommandBusListenerFactory::class,
                 SharedEventManager::class                 => fn(): SharedEventManager => new SharedEventManager(),
                 Middleware\AjaxRequestMiddleware::class   => Middleware\AjaxRequestMiddlewareFactory::class,
                 Middleware\DefaultParamsMiddleware::class => Middleware\DefaultParamsMiddlewareFactory::class,
-
             ],
             'invokables' => [
                 Handler\PingHandler::class     => Handler\PingHandler::class,
