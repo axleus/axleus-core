@@ -10,9 +10,9 @@ use Laminas\EventManager\EventManager;
 use Laminas\EventManager\EventManagerInterface;
 use Laminas\EventManager\SharedEventManager;
 use Laminas\EventManager\SharedEventManagerInterface;
+use Laminas\I18n\Translator\Loader\PhpArray;
 use Laminas\Stratigility\Middleware\ErrorHandler;
-// use League\Tactician\CommandBus;
-//use League\Tactician\CommandEvents\EventMiddleware;
+// use League\Tactician\Middleware;
 use League\Tactician\Plugins\NamedCommand\NamedCommandExtractor;
 use Mezzio\Application;
 use Mezzio\Container\ApplicationConfigInjectionDelegator;
@@ -25,7 +25,6 @@ use Mezzio\Router\Middleware\ImplicitOptionsMiddleware;
 use Mezzio\Router\Middleware\MethodNotAllowedMiddleware;
 use Mezzio\Router\Middleware\RouteMiddleware;
 use Mezzio\Session\SessionMiddleware;
-use Psr\EventDispatcher\ListenerProviderInterface;
 use TacticianModule\Locator\ClassnameLaminasLocator;
 
 class ConfigProvider
@@ -37,6 +36,7 @@ class ConfigProvider
             'middleware_pipeline'   => $this->getPipelineConfig(),
             'routes'                => $this->getRoutes(),
             'tactician'             => $this->getTacticianConfig(),
+            'translator'            => $this->getTranslatorConfig(),
         ];
     }
 
@@ -60,6 +60,7 @@ class ConfigProvider
                 SharedEventManager::class                 => fn(): SharedEventManager => new SharedEventManager(),
                 Middleware\AjaxRequestMiddleware::class   => Middleware\AjaxRequestMiddlewareFactory::class,
                 Middleware\DefaultParamsMiddleware::class => Middleware\DefaultParamsMiddlewareFactory::class,
+                Middleware\TranslatorMiddleware::class    => Middleware\TranslatorMiddlewareFactory::class,
             ],
             'invokables' => [
                 Handler\PingHandler::class     => Handler\PingHandler::class,
@@ -83,6 +84,10 @@ class ConfigProvider
             [
                 'middleware' => SessionMiddleware::class,
                 'priority'   => Constants::PIPE_PRIORITIES[SessionMiddleware::class],
+            ],
+            [
+                'middleware' => Middleware\TranslatorMiddleware::class,
+                'priority'   => Constants::PIPE_PRIORITIES[Middleware\TranslatorMiddleware::class],
             ],
             [// this must be in the pipeline or ajax request fail
                 'middleware' => Middleware\AjaxRequestMiddleware::class,
@@ -149,6 +154,21 @@ class ConfigProvider
             'default-extractor' => NamedCommandExtractor::class,
             'middleware' => [
                 CommandBus\Event\EventMiddleware::class => 50,
+            ],
+        ];
+    }
+
+    public function getTranslatorConfig(): array
+    {
+        return [
+            'event_manager_enabled'     => true,
+            'translation_file_patterns' => [ // This is the only config that is needed for 1 translation per file
+                [
+                    'type'     => PhpArray::class,
+                    'filename' => 'en_US.php',
+                    'base_dir' => __DIR__ . '/../language',
+                    'pattern'  => '%s.php',
+                ],
             ],
         ];
     }

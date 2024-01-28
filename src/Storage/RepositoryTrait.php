@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Axleus\Storage;
 
 use Laminas\Db\ResultSet\ResultSetInterface;
-use Webinertia\Db\EntityInterface;
-use Webinertia\Db\ModelTrait;
+use Axleus\Db\EntityInterface;
+use Axleus\Db\ModelTrait;
 
 trait RepositoryTrait
 {

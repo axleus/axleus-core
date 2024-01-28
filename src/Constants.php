@@ -18,12 +18,13 @@ use Mezzio\Session\SessionMiddleware;
 interface Constants
 {
     public const PIPE_PRIORITIES = [
-        ErrorHandler::class                               => 10600,
-        ServerUrlMiddleware::class                        => 10500,
-        SessionMiddleware::class                          => 10400,
+        ErrorHandler::class                               => 10700,
+        ServerUrlMiddleware::class                        => 10600,
+        SessionMiddleware::class                          => 10500,
+        Middleware\TranslatorMiddleware::class            => 10400,
         Middleware\AjaxRequestMiddleware::class           => 10300,
         \UserManager\Middleware\IdentityMiddleware::class => 10200,
-        \Log\MonologMiddleware::class                     => 10100,
+        \Axleus\Log\MonologMiddleware::class              => 10100,
         // PluginInterface::PLUGIN_PIPED_MIDDLEWARE_PRIORITY => 10000
         RouteMiddleware::class                            => 9900,
         ImplicitHeadMiddleware::class                     => 9800,
