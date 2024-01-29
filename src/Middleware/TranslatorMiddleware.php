@@ -42,20 +42,6 @@ class TranslatorMiddleware implements MiddlewareInterface
         }
         $this->pm->configure((new ConfigProvider())->getViewHelperConfig());
 
-        // if (! $request->hasHeader('X-Requested-With')) {
-        //     // if we do not have this bail early
-        //     return $handler->handle($request->withAttribute('isAjax', false));
-        // }
-
-        // if (in_array('XMLHttpRequest', $request->getHeader('X-Requested-With'), true)) {
-        //     // for ajax do not render the layout again
-        //     $this->template->addDefaultParam(
-        //         TemplateRendererInterface::TEMPLATE_ALL,
-        //         'layout',
-        //         false
-        //     );
-        // }
-
         return $handler->handle($request->withAttribute('translator', $this->translator));
     }
 }

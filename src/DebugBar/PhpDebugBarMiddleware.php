@@ -115,7 +115,9 @@ final class PhpDebugBarMiddleware implements MiddlewareInterface
     private function prepareHtmlResponseWithDebugBar(Response $response): Response
     {
         $head = $this->debugBarRenderer->renderHead();
+
         $body = $this->isAjax ? $this->debugBarRenderer->render(false) : $this->debugBarRenderer->render();
+
         $outResponseBody = $this->serializeResponse($response);
         $template = '<html><head>%s</head><body><h1>DebugBar</h1><p>Response:</p><pre>%s</pre>%s</body></html>';
         $escapedOutResponseBody = htmlspecialchars($outResponseBody);
@@ -131,7 +133,9 @@ final class PhpDebugBarMiddleware implements MiddlewareInterface
     private function attachDebugBarToHtmlResponse(Response $response): Response
     {
         $head = $this->debugBarRenderer->renderHead();
+
         $body = $this->isAjax ? $this->debugBarRenderer->render(false) : $this->debugBarRenderer->render();
+
         $responseBody = $response->getBody();
 
         if (! $responseBody->eof() && $responseBody->isSeekable()) {
