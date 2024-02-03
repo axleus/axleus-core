@@ -7,6 +7,8 @@ namespace Axleus\Storage;
 use Laminas\Hydrator\ReflectionHydrator;
 use Axleus\Db;
 
+use function method_exists;
+
 class AbstractRepository implements Db\RepositoryInterface, Db\RepositoryCommandInterface
 {
     use RepositoryTrait;
@@ -15,5 +17,12 @@ class AbstractRepository implements Db\RepositoryInterface, Db\RepositoryCommand
         private Db\TableGateway $gateway,
         private ReflectionHydrator $hydrator = new ReflectionHydrator(),
     ) {
+    }
+
+    public function __call($name, $arguments)
+    {
+        if (method_exists($this->gateway, $name)) {
+            return $this->gateway->$name(...$arguments);
+        }
     }
 }

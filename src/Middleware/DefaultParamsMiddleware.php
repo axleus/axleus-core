@@ -24,12 +24,19 @@ class DefaultParamsMiddleware implements MiddlewareInterface
      */
     public function __construct(
         private TemplateRendererInterface $template,
-        private UrlHelper $urlHelper
+        private UrlHelper $urlHelper,
+        private array $config
     ) {
     }
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
+        $this->template->addDefaultParam(
+            TemplateRendererInterface::TEMPLATE_ALL,
+            'debug',
+            $this->config['debug']
+        );
+
         $this->template->addDefaultParam(
             TemplateRendererInterface::TEMPLATE_ALL,
             'currentUser',

@@ -28,7 +28,8 @@ class DefaultParamsMiddlewareFactory
         $helper = $container->get(UrlHelper::class);
         return new DefaultParamsMiddleware(
             $renderer,
-            $helper
+            $helper,
+            $container->get('config')
         );
     }
 }

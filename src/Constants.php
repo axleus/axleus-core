@@ -17,6 +17,8 @@ use Mezzio\Session\SessionMiddleware;
 
 interface Constants
 {
+    public const DEBUGBAR_RESOURCES = __DIR__ . '/DebugBar/Resources';
+
     public const PIPE_PRIORITIES = [
         ErrorHandler::class                               => 10700,
         ServerUrlMiddleware::class                        => 10600,

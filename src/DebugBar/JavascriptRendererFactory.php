@@ -17,11 +17,9 @@ final class JavascriptRendererFactory
         $debugBar = $container->get(DebugBar::class);
         /** @var array {phpmiddleware: array{phpdebugbar: array{javascript_renderer: array {}}}} */
         $config = $container->get('config');
-        $rendererOptions = $config['phpmiddleware']['phpdebugbar']['javascript_renderer'];
+        $rendererOptions = $config['debugbar']['javascript_renderer'];
         $renderer = new JavascriptRenderer($debugBar);
         $renderer->setOptions($rendererOptions);
-        // this is here for performance
-        $renderer->setBindAjaxHandlerToXHR(true);
 
         return $renderer;
     }
