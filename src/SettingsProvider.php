@@ -8,7 +8,7 @@ use function file_exists;
 
 class SettingsProvider
 {
-    final public const SETTINGS_PATH = __DIR__ . '/../../../../data/settings/';
+    public const SETTINGS_PATH = __DIR__ . '/../../../../data/settings/';
     /**
      * Extending class should define this property as the target file name
      */
@@ -16,8 +16,12 @@ class SettingsProvider
 
     public function __invoke(): array
     {
-        if ($this->file !== null && file_exists(self::SETTINGS_PATH . $this->file)) {
-            return include_once self::SETTINGS_PATH . $this->file;
+        $settings = [];
+        if ($this->file !== null && file_exists(static::SETTINGS_PATH . $this->file)) {
+            $settings = (include_once static::SETTINGS_PATH . $this->file);
+        }
+        if (is_array($settings)) {
+            return $settings;
         }
         return [];
     }

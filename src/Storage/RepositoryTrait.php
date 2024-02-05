@@ -50,7 +50,10 @@ trait RepositoryTrait
 
     public function findManyByColumn(array $titles): ResultSetInterface { }
 
-    public function fetchAll(): ResultSetInterface { }
+    public function fetchAll(): ResultSetInterface
+    {
+        return $this->gateway->select();
+    }
 
     public function delete(EntityInterface $entity): int { }
 }

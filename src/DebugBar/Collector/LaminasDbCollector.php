@@ -9,7 +9,6 @@ use BjyProfiler\Db\Profiler\Profiler;
 use DebugBar\DataCollector\AssetProvider;
 use DebugBar\DataCollector\DataCollector;
 use DebugBar\DataCollector\Renderable;
-use Laminas\Db\Adapter\Adapter;
 
 final class LaminasDbCollector extends DataCollector implements Renderable, AssetProvider
 {
