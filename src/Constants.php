@@ -17,7 +17,6 @@ use Mezzio\Session\SessionMiddleware;
 
 interface Constants
 {
-    public const DEBUGBAR_RESOURCES = __DIR__ . '/DebugBar/Resources';
 
     public const PIPE_PRIORITIES = [
         ErrorHandler::class                               => 10700,
@@ -35,7 +34,6 @@ interface Constants
         UrlHelperMiddleware::class                        => 9700,
         Middleware\DefaultParamsMiddleware::class         => 9600,
         // PluginInterface::ROUTE_RESULT_MIDDLEWARE_PRIORITY => 8000
-        DebugBar\PhpDebugBarMiddleware::class             => 1, // default from package is 1000
         DispatchMiddleware::class                         => 0,
         NotFoundHandler::class                            => -10000,
     ];
