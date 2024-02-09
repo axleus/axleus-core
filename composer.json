@@ -21,7 +21,13 @@
     "require": {
         "php": "~8.2.0",
         "axleus/axleus-db": "1.0.x-dev",
-        "axleus/axleus-log": "1.0.x-dev"
+        "axleus/axleus-log": "1.0.x-dev",
+        "axleus/axleus-pluginmanager": "1.0.x-dev",
+        "mikemix/tactician-module": "^3.2",
+        "webinertia/limatus": "^0.0.13",
+        "webinertia/webinertia-filter": "^0.0.5",
+        "webinertia/webinertia-utils": "^0.0.10",
+        "webinertia/webinertia-validator": "^0.0.4"
     },
     "require-dev": {
         "laminas/laminas-coding-standard": "^2.5",
