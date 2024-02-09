@@ -48,8 +48,14 @@ final class CommandBusListener extends AbstractListenerAggregate
     {
         /** @var NamedCommand */
         $failed = $event->getCommand();
-        $this->logger->info(
-            '{command} failed.', // failure message
+        // use the redefined const or the one from the interface
+        $failed->setLogLevel($failed::FAILURE_LOG_LEVEL);
+        $ex = $event->getException();
+        // get the level so we know which log method to call
+        $level = $failed->getLogLevel();
+
+        $this->logger->$level(
+            $ex->getMessage(), // failure message
             [
                 'command' => $failed->getCommandName(),
             ]

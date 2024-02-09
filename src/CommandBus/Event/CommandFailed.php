@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Axleus\CommandBus\Event;
 
+use Axleus\Exception\RecoverableExceptionInterface;
+use Exception;
 use Laminas\EventManager\Event;
 
 final class CommandFailed extends Event implements CommandEventInterface
@@ -18,16 +20,19 @@ final class CommandFailed extends Event implements CommandEventInterface
     protected $exceptionCaught = false;
 
     public function __construct(
-        protected $command,
-        protected \Exception $exception
+        protected $target,
+        protected Exception|RecoverableExceptionInterface $exception
     ) {
+        if ($exception instanceof RecoverableExceptionInterface) {
+            $this->catchException();
+        }
         parent::__construct(self::COMMAND_FAILED_EVENT);
     }
 
     /**
      * Returns the exception
      *
-     * @return \Exception
+     * @return Exception|RecoverableExceptionInterface
      */
     public function getException()
     {

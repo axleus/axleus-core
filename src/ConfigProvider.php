@@ -65,7 +65,7 @@ class ConfigProvider
             'invokables' => [
                 Handler\PingHandler::class     => Handler\PingHandler::class,
                 NamedCommandExtractor::class   => NamedCommandExtractor::class,
-                ClassnameLaminasLocator::class => ClassnameLaminasLocator::class,
+                ClassnameLaminasLocator::class => ClassnameLaminasLocator::class
             ],
         ];
     }
