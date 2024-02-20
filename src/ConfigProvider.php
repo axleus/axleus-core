@@ -44,6 +44,7 @@ class ConfigProvider
     {
         return [
             'aliases'    => [
+                Authorization\AuthorizationInterface::class => Authorization\AuthorizationService::class,
                 EventManagerInterface::class       => EventManager::class,
                 'EventManager'                     => EventManager::class,
                 SharedEventManagerInterface::class => SharedEventManager::class,
@@ -54,7 +55,9 @@ class ConfigProvider
                 ],
             ],
             'factories' => [
-                EventManager::class                       => EventManagerFactory::class,
+                Authorization\AuthorizationService::class => Authorization\AuthorizationServiceFactory::class,
+                Authorization\AuthorizationMiddleware::class => Authorization\AuthorizationMiddlewareFactory::class,
+                EventManager::class                       => Service\EventManagerFactory::class,
                 CommandBus\Event\EventMiddleware::class   => CommandBus\Event\EventMiddlewareFactory::class,
                 CommandBus\Listener\CommandBusListener::class => CommandBus\Listener\CommandBusListenerFactory::class,
                 SharedEventManager::class                 => fn(): SharedEventManager => new SharedEventManager(),

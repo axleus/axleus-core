@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Axleus;
+namespace Axleus\Service;
 
 use Laminas\EventManager\EventManager;
 use Laminas\EventManager\SharedEventManager;
