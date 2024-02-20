@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Axleus\Authorization;
 
+use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 
@@ -17,16 +18,14 @@ class AuthorizationMiddlewareFactory
         if (
             ! $container->has(AuthorizationInterface::class)
         ) {
-            throw new \Exception(sprintf(
+            throw new ServiceNotFoundException(sprintf(
                 'Cannot create %s service; dependency %s is missing',
                 AuthorizationMiddleware::class,
                 AuthorizationInterface::class
             ));
         }
 
-        $authorization = $container->has(AuthorizationInterface::class)
-            ? $container->get(AuthorizationInterface::class)
-            : $container->get('Zend\Expressive\Authorization\AuthorizationInterface');
+        $authorization = $container->get(AuthorizationInterface::class);
         assert($authorization instanceof AuthorizationInterface);
 
         return new AuthorizationMiddleware(

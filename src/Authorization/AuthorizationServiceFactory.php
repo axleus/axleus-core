@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Axleus\Authorization;
 
+use DomainException;
 use Laminas\Permissions\Acl\Acl;
 use Laminas\Permissions\Acl\Exception\ExceptionInterface as AclExceptionInterface;
 use Laminas\Permissions\Acl\Resource\ResourceInterface;
@@ -14,24 +15,24 @@ use function array_reverse;
 
 final class AuthorizationServiceFactory
 {
-        /**
-     * @throws Exception\InvalidConfigException
+    /**
+     * @throws DomainException
      */
     public function __invoke(ContainerInterface $container): AuthorizationInterface
     {
         $config = $container->get('config')['authorization'] ?? null;
         if (null === $config) {
-            throw new \Exception(
+            throw new DomainException(
                 'No authorization config provided'
             );
         }
         if (! isset($config['roles'])) {
-            throw new \Exception(
+            throw new DomainException(
                 'No authorization roles configured for AuthorizationService'
             );
         }
         if (! isset($config['resources'])) {
-            throw new \Exception(
+            throw new DomainException(
                 'No authorization resources configured for AuthorizationService'
             );
         }
@@ -47,7 +48,7 @@ final class AuthorizationServiceFactory
     }
 
     /**
-     * @throws \Exception
+     * @throws DomainException
      * @param array<string, list<RoleInterface|string>> $roles
      */
     private function injectRoles(Acl $acl, array $roles): void
@@ -58,14 +59,14 @@ final class AuthorizationServiceFactory
                 try {
                     $acl->addRole($role, $parents);
                 } catch (AclExceptionInterface $e) {
-                    throw new \Exception($e->getMessage(), $e->getCode(), $e);
+                    throw new DomainException($e->getMessage(), $e->getCode(), $e);
                 }
             }
         }
     }
 
     /**
-     * @throws \Exception
+     * @throws DomainException
      * @param list<ResourceInterface|string> $resources
      */
     private function injectResources(Acl $acl, array $resources): void
@@ -74,19 +75,19 @@ final class AuthorizationServiceFactory
             try {
                 $acl->addResource($resource);
             } catch (AclExceptionInterface $e) {
-                throw new \Exception($e->getMessage(), $e->getCode(), $e);
+                throw new DomainException($e->getMessage(), $e->getCode(), $e);
             }
         }
     }
 
     /**
-     * @throws Exception\InvalidConfigException
+     * @throws DomainException
      * @param array<string, ResourceInterface|string|list<ResourceInterface|string|array>> $permissions
      */
     private function injectPermissions(Acl $acl, array $permissions, string $type): void
     {
         if (! in_array($type, ['allow', 'deny'], true)) {
-            throw new \Exception(sprintf(
+            throw new DomainException(sprintf(
                 'Invalid permission type "%s" provided in configuration; must be one of "allow" or "deny"',
                 $type
             ));
@@ -113,12 +114,12 @@ final class AuthorizationServiceFactory
                     }
 
                 } catch (AclExceptionInterface $e) {
-                    throw new \Exception($e->getMessage(), $e->getCode(), $e);
+                    throw new DomainException($e->getMessage(), $e->getCode(), $e);
                 }
             }
             // Administrator gets all privileges
-            if ($role === 'Administrator') {
-                $acl->allow('Administrator');
+            if ($role === AuthorizationInterface::ADMIN_ROLE) {
+                $acl->allow(AuthorizationInterface::ADMIN_ROLE);
             }
         }
     }

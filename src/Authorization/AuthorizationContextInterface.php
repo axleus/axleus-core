@@ -6,5 +6,4 @@ namespace Axleus\Authorization;
 
 interface AuthorizationContextInterface
 {
-
 }

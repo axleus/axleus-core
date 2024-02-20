@@ -8,6 +8,9 @@ use Psr\Http\Message\ServerRequestInterface;
 
 interface AuthorizationInterface
 {
+    public final const ADMIN_ROLE = 'Administrator';
+    public final const GUEST_ROLE = 'Guest';
+
     public function isAllowed(
         $role = null,
         $resource = null,

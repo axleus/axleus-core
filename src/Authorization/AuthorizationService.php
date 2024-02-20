@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Axleus\Authorization;
 
 use Laminas\Permissions\Acl\Acl;
-
 use Psr\Http\Message\ServerRequestInterface;
 
 final class AuthorizationService implements AuthorizationInterface
