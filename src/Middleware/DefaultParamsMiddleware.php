@@ -43,16 +43,16 @@ class DefaultParamsMiddleware implements MiddlewareInterface
             $request->getAttribute(UserInterface::class)
         );
 
-        $routeResult = $this->urlHelper->getRouteResult();
+        $routeResult = $request->getAttribute(RouteResult::class, null);
         /** @var non-empty-string|null */
-        $matchedRouteName = $routeResult === null ? null : $routeResult->getMatchedRouteName();
+        $matchedRouteName = $routeResult?->getMatchedRouteName();
         $this->template->addDefaultParam(
             TemplateRendererInterface::TEMPLATE_ALL,
             'matchedRouteName',
-            $matchedRouteName ?? null
+            $matchedRouteName
         );
 
-        if ($routeResult !== null && $routeResult->isSuccess()) {
+        if ($routeResult?->isSuccess()) {
             /** @var array<string, mixed> */
             $params = $request->getQueryParams();
             /**
