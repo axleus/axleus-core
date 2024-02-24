@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Axleus\Authorization;
 
+use Laminas\Permissions\Acl\Resource\ResourceInterface;
 use Mezzio\Authentication\UserInterface;
 use Mezzio\Router\Route;
 use Mezzio\Router\RouteResult;
@@ -16,6 +17,9 @@ class AuthorizationMiddleware implements MiddlewareInterface
 {
     /** @var callable */
     private $responseFactory;
+
+    private ResourceInterface|string|null $resource = null;
+    private PrivilegeInterface|string|null $privilege = null;
 
     public function __construct(private AuthorizationInterface $authorization, callable $responseFactory)
     {
@@ -43,15 +47,17 @@ class AuthorizationMiddleware implements MiddlewareInterface
         } else {
             /** @var Route|null */
             $routeName = $routeResult?->getMatchedRouteName();
-            $context   = $request?->getAttribute(AuthorizationContextInterface::class);
+            if ($context === null) {
+                //throw new \Exception('Authorization context has not been defined.');
+            }
         }
         if (is_array($context) && in_array($routeName, $context)) {
             foreach ($user->getRoles() as $role) {
                 if (
                     $this->authorization->isAllowed(
                         $role,
-                        $context['resource'],
-                        $context['privilege']
+                        // $this->getResource(),
+                        // $this->getPrivilege()
                     )
                 ) {
                     return $handler->handle($request);

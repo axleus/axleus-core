@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Axleus;
 
+use Axleus\Authorization\Event\AuthorizationListener;
 use Axleus\Constants;
 use Axleus\CommandBus;
 use Laminas\EventManager\EventManager;
@@ -12,7 +13,6 @@ use Laminas\EventManager\SharedEventManager;
 use Laminas\EventManager\SharedEventManagerInterface;
 use Laminas\I18n\Translator\Loader\PhpArray;
 use Laminas\Stratigility\Middleware\ErrorHandler;
-// use League\Tactician\Middleware;
 use League\Tactician\Plugins\NamedCommand\NamedCommandExtractor;
 use Mezzio\Application;
 use Mezzio\Container\ApplicationConfigInjectionDelegator;
@@ -32,11 +32,21 @@ class ConfigProvider
     public function __invoke(): array
     {
         return [
-            'dependencies'          => $this->getDependencies(),
-            'middleware_pipeline'   => $this->getPipelineConfig(),
-            'routes'                => $this->getRoutes(),
-            'tactician'             => $this->getTacticianConfig(),
-            'translator'            => $this->getTranslatorConfig(),
+            'authorization_event' => $this->getAuthorizationEventConfig(),
+            'dependencies'        => $this->getDependencies(),
+            'middleware_pipeline' => $this->getPipelineConfig(),
+            'routes'              => $this->getRoutes(),
+            'tactician'           => $this->getTacticianConfig(),
+            'translator'          => $this->getTranslatorConfig(),
+        ];
+    }
+
+    public function getAuthorizationEventConfig(): array
+    {
+        return [
+            'identifiers' => [
+                Authorization\AuthorizedServiceInterface::class,
+            ],
         ];
     }
 
@@ -55,20 +65,21 @@ class ConfigProvider
                 ],
             ],
             'factories' => [
+                Authorization\Event\AuthorizationListener::class => Authorization\Event\AuthorizationListenerFactory::class,
                 Authorization\AuthorizationService::class => Authorization\AuthorizationServiceFactory::class,
                 Authorization\AuthorizationMiddleware::class => Authorization\AuthorizationMiddlewareFactory::class,
-                EventManager::class                       => Service\EventManagerFactory::class,
                 CommandBus\Event\EventMiddleware::class   => CommandBus\Event\EventMiddlewareFactory::class,
                 CommandBus\Listener\CommandBusListener::class => CommandBus\Listener\CommandBusListenerFactory::class,
-                SharedEventManager::class                 => fn(): SharedEventManager => new SharedEventManager(),
+                EventManager::class                       => Service\EventManagerFactory::class,
                 Middleware\AjaxRequestMiddleware::class   => Middleware\AjaxRequestMiddlewareFactory::class,
                 Middleware\DefaultParamsMiddleware::class => Middleware\DefaultParamsMiddlewareFactory::class,
                 Middleware\TranslatorMiddleware::class    => Middleware\TranslatorMiddlewareFactory::class,
+                SharedEventManager::class                 => fn(): SharedEventManager => new SharedEventManager(),
             ],
             'invokables' => [
                 Handler\PingHandler::class     => Handler\PingHandler::class,
                 NamedCommandExtractor::class   => NamedCommandExtractor::class,
-                ClassnameLaminasLocator::class => ClassnameLaminasLocator::class
+                ClassnameLaminasLocator::class => ClassnameLaminasLocator::class,
             ],
         ];
     }

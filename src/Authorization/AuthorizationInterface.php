@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Axleus\Authorization;
 
+use Axleus\Authorization\Event\AuthorizationEvent;
 use Psr\Http\Message\ServerRequestInterface;
 
 interface AuthorizationInterface
@@ -16,5 +17,7 @@ interface AuthorizationInterface
         $resource = null,
         $privilege = null,
         ?ServerRequestInterface $request = null
-        ): bool;
+    ): bool;
+
+    public function authorize(AuthorizationEvent $event): bool;
 }

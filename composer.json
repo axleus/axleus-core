@@ -36,11 +36,6 @@
         "laminas/laminas-test": "^4.8",
         "vimeo/psalm": "^5.14"
     },
-    "extra": {
-        "laminas": {
-            "config-provider": "Axleus\\ConfigProvider"
-        }
-    },
     "autoload": {
         "files": [
             "src/Stdlib/functions/round_to_given_digit.php"
