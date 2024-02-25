@@ -6,6 +6,6 @@ namespace Axleus\Authorization;
 
 interface PrivilegeInterface
 {
-    public function setPrivilege(): void;
+    public function setPrivilege(?string $privilege): void;
     public function getPrivilege(): ?string;
 }
