@@ -8,7 +8,6 @@ use Axleus\Authorization\PrivilegeInterface;
 use Laminas\EventManager\Event;
 use Laminas\Permissions\Acl\Resource\ResourceInterface;
 use Laminas\Permissions\Acl\Role\RoleInterface;
-use phpDocumentor\Reflection\Types\Null_;
 use Psr\Http\Message\ServerRequestInterface;
 
 final class AuthorizationEvent extends Event
@@ -45,12 +44,12 @@ final class AuthorizationEvent extends Event
         return $this->getParam('request');
     }
 
-    public function setRole(RoleInterface|string $role): void
+    public function setRole(RoleInterface|array|string $role): void
     {
         $this->setParam('role', $role);
     }
 
-    public function getRole(): RoleInterface|string
+    public function getRole(): RoleInterface|array|string
     {
         return $this->getParam('role');
     }

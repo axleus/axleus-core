@@ -6,6 +6,6 @@ namespace Axleus\Authorization;
 
 use Laminas\Permissions\Acl\Resource\ResourceInterface;
 
-interface AdminResourceInterface extends ResourceInterface
+interface AdminResourceInterface extends PrivilegeInterface, ResourceInterface
 {
 }

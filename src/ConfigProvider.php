@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Axleus;
 
-use Axleus\Authorization\Event\AuthorizationListener;
 use Axleus\Constants;
 use Axleus\CommandBus;
 use Laminas\EventManager\EventManager;
@@ -67,7 +66,6 @@ class ConfigProvider
             'factories' => [
                 Authorization\Event\AuthorizationListener::class => Authorization\Event\AuthorizationListenerFactory::class,
                 Authorization\AuthorizationService::class => Authorization\AuthorizationServiceFactory::class,
-                Authorization\AuthorizationMiddleware::class => Authorization\AuthorizationMiddlewareFactory::class,
                 CommandBus\Event\EventMiddleware::class   => CommandBus\Event\EventMiddlewareFactory::class,
                 CommandBus\Listener\CommandBusListener::class => CommandBus\Listener\CommandBusListenerFactory::class,
                 EventManager::class                       => Service\EventManagerFactory::class,

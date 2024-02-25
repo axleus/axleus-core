@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Axleus\Authorization\Event;
 
-use Axleus\Authorization\AuthorizationAwareInterface;
 use Axleus\Authorization\AuthorizationService;
 use Axleus\Authorization\Event\AuthorizationEvent;
 use Laminas\EventManager\AbstractListenerAggregate;
@@ -19,9 +18,7 @@ final class AuthorizationListener extends AbstractListenerAggregate
 
     public function attach(EventManagerInterface $events, $priority = 1)
     {
-        $sharedManager = $events->getSharedManager();
-        $this->listeners[] = $sharedManager->attach(
-            AuthorizationAwareInterface::class,
+        $this->listeners[] = $events->attach(
             AuthorizationEvent::AUTHORIZATION_EVENT,
             [$this, 'authorize'],
             $priority
