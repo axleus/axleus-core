@@ -11,6 +11,7 @@ use Laminas\EventManager\EventManagerInterface;
 use Laminas\EventManager\SharedEventManager;
 use Laminas\EventManager\SharedEventManagerInterface;
 use Laminas\I18n\Translator\Loader\PhpArray;
+use Laminas\ServiceManager\Factory\InvokableFactory;
 use Laminas\Stratigility\Middleware\ErrorHandler;
 use League\Tactician\Plugins\NamedCommand\NamedCommandExtractor;
 use Mezzio\Application;
@@ -37,6 +38,7 @@ class ConfigProvider
             'routes'              => $this->getRoutes(),
             'tactician'           => $this->getTacticianConfig(),
             'translator'          => $this->getTranslatorConfig(),
+            'view_helpers'        => $this->getViewHelperConfig(),
         ];
     }
 
@@ -57,6 +59,7 @@ class ConfigProvider
                 EventManagerInterface::class       => EventManager::class,
                 'EventManager'                     => EventManager::class,
                 SharedEventManagerInterface::class => SharedEventManager::class,
+                //'isAllowed' => Authorization\View\Helper\AuthorizationHelper::class,
             ],
             'delegators' => [
                 Application::class => [
@@ -181,6 +184,19 @@ class ConfigProvider
                     'base_dir' => __DIR__ . '/../language',
                     'pattern'  => '%s.php',
                 ],
+            ],
+        ];
+    }
+
+    public function getViewHelperConfig(): array
+    {
+        return [
+            'aliases' => [
+                'isAllowed' => Authorization\View\Helper\AuthorizationHelper::class,
+            ],
+            'factories' => [
+                Authorization\View\Helper\AuthorizationHelper::class =>
+                    Authorization\View\Helper\AuthorizationHelperFactory::class
             ],
         ];
     }

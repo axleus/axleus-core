@@ -118,9 +118,9 @@ final class AuthorizationServiceFactory
                 }
             }
             // Administrator gets all privileges
-            if ($role === AuthorizationInterface::ADMIN_ROLE) {
-                $acl->allow(AuthorizationInterface::ADMIN_ROLE);
-            }
+            // if ($role === AuthorizationInterface::ADMIN_ROLE) {
+            //     //$acl->allow(AuthorizationInterface::ADMIN_ROLE);
+            // }
         }
     }
 }

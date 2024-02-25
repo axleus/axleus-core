@@ -7,18 +7,15 @@ namespace Axleus\Authorization;
 use Axleus\Authorization\Event\AuthorizationEvent;
 use Laminas\Permissions\Acl;
 use Laminas\EventManager\EventManagerAwareTrait;
-use Laminas\Permissions\Acl\Resource\ResourceInterface;
 use Mezzio\Authentication\UserInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 trait AuthorizedServiceTrait
 {
     use EventManagerAwareTrait;
-    use PrivilegeInterfaceTrait;
-    use ResourceInterfaceTrait;
 
     protected function isAllowed(
-        Acl\Role\RoleInterface|string|null         $role      = null,
+        Acl\Role\RoleInterface|array|string|null   $role      = null,
         Acl\Resource\ResourceInterface|string|null $resource  = null,
         PrivilegeInterface|string|null             $privilege = null,
         ?ServerRequestInterface                    $request   = null
