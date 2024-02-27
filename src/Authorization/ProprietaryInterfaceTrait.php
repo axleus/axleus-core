@@ -6,9 +6,7 @@ namespace Axleus\Authorization;
 
 trait ProprietaryInterfaceTrait
 {
-    protected ?int $ownerId = null;
-
-    public function getOwnerId(): ?int
+    public function getOwnerId(): int|string|null
     {
         return $this->ownerId;
     }

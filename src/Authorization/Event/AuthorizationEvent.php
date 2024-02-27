@@ -14,24 +14,24 @@ final class AuthorizationEvent extends Event
 {
     public final const AUTHORIZATION_EVENT = 'authorize';
 
-    public function setPrivilege(PrivilegeInterface|string $privilege): void
+    public function setPrivilegeId(PrivilegeInterface|string|null $privilege): void
     {
-        $this->setParam('privilege', $privilege);
+        $this->setParam('privilegeId', $privilege);
     }
 
-    public function getPrivilege(): PrivilegeInterface|string|Null
+    public function getPrivilegeId(): PrivilegeInterface|string|Null
     {
-        return $this->getParam('privilege');
+        return $this->getParam('privilegeId');
     }
 
-    public function setResource(ResourceInterface|string $resourceId): void
+    public function setResourceId(ResourceInterface|string|null $resourceId): void
     {
-        $this->setParam('resource', $resourceId);
+        $this->setParam('resourceId', $resourceId);
     }
 
-    public function getResource(): ResourceInterface|string|null
+    public function getResourceId(): ResourceInterface|string|null
     {
-        return $this->getParam('resource');
+        return $this->getParam('resourceId');
     }
 
     public function setRequest(ServerRequestInterface $request): void
@@ -44,13 +44,13 @@ final class AuthorizationEvent extends Event
         return $this->getParam('request');
     }
 
-    public function setRole(RoleInterface|array|string $role): void
+    public function setRoleId(RoleInterface|array|string|null $role): void
     {
-        $this->setParam('role', $role);
+        $this->setParam('roleId', $role);
     }
 
-    public function getRole(): RoleInterface|array|string
+    public function getRoleId(): RoleInterface|array|string|null
     {
-        return $this->getParam('role');
+        return $this->getParam('roleId');
     }
 }

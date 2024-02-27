@@ -8,7 +8,7 @@ use DateTimeImmutable;
 use Laminas\Permissions\Acl\ProprietaryInterface;
 use Laminas\Permissions\Acl\Resource\ResourceInterface;
 
-interface ContentInterface extends ProprietaryInterface, ResourceInterface
+interface ContentInterface
 {
     public function getId(): array|int|string|null;
     public function setId(array|int|string|null $id): self;

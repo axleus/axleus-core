@@ -6,15 +6,8 @@ namespace Axleus\Authorization;
 
 trait PrivilegeInterfaceTrait
 {
-    private ?string $privilege = null;
-
-    public function setPrivilege(?string $privilege): void
+    public function getPrivilegeId(): ?string
     {
-        $this->privilege = $privilege;
-    }
-
-    public function getPrivilege(): ?string
-    {
-        return $this->privilege;
+        return $this->privilegeId;
     }
 }

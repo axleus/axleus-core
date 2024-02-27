@@ -5,45 +5,35 @@ declare(strict_types=1);
 namespace Axleus\Authorization;
 
 use Axleus\Authorization\Event\AuthorizationEvent;
-use Laminas\Permissions\Acl;
+use Laminas\Permissions\Acl\Role\RoleInterface as LaminasRoleInterface;
+use Laminas\Permissions\Acl\Resource\ResourceInterface;
 use Laminas\EventManager\EventManagerAwareTrait;
 use Mezzio\Authentication\UserInterface;
-use Psr\Http\Message\ServerRequestInterface;
 
 trait AuthorizedServiceTrait
 {
     use EventManagerAwareTrait;
+    use PrivilegeInterfaceTrait;
+    use ProprietaryInterfaceTrait;
+    use ResourceInterfaceTrait;
+    use RoleInterfaceTrait;
 
     protected function isAllowed(
-        Acl\Role\RoleInterface|array|string|null   $role      = null,
-        Acl\Resource\ResourceInterface|string|null $resource  = null,
-        PrivilegeInterface|string|null             $privilege = null,
-        ?ServerRequestInterface                    $request   = null
+        LaminasRoleInterface|RoleInterface|array|string|null $roleId      = null,
+        ResourceInterface|string|null                        $resourceId  = null,
+        PrivilegeInterface|string|null                       $privilegeId = null,
     ): bool {
         $event = new AuthorizationEvent(
             AuthorizationEvent::AUTHORIZATION_EVENT,
+            $this
         );
-
-        $user = $request?->getAttribute(UserInterface::class);
-        // prefer the role passed at call time
-        $role = $role ?? $user?->getRoles();
-        if ($role !== null) {
-            $request = null;
-        }
-        $event->setRole($role);
-        if ($resource === null && $this instanceof AdminResourceInterface) {
-            $resource = $this;
-        } else {
-            $resource = static::class;
-        }
-        $event->setResource($resource);
-        if ($privilege === null && $this instanceof PrivilegeInterface) {
-            $privilege = $this;
-        }
-        $event->setPrivilege($privilege);
+        // pass these and prefer event params over calls to target since they were passed at call time
+        $event->setRoleId($roleId);
+        $event->setResourceId($resourceId);
+        $event->setPrivilegeId($privilegeId);
         $eventManager = $this->getEventManager();
         $result = $eventManager->triggerEvent(
-            $event
+            $event,
         );
         return $result->last();
     }
