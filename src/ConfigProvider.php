@@ -8,7 +8,7 @@ use Psr\Container\ContainerInterface;
 
 final class ConfigProvider
 {
-    public function __invoke(ContainerInterface $container): array
+    public function __invoke(): array
     {
         return [];
     }
