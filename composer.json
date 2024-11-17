@@ -7,6 +7,11 @@
         "mezzio",
         "axleus core"
     ],
+    "homepage": "https://github.com/orgs/axleus/discussions",
+    "support": {
+        "issues": "https://github.com/axleus/axleus-core/issues",
+        "chat": "https://discord.gg/9TxQ74EPsG"
+    },
     "authors": [
         {
             "name": "Joey Smith",
