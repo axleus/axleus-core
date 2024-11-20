@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Axleus\Core;
 
 use Laminas\EventManager;
+use Mezzio\Application;
+use Mezzio\Container\ApplicationConfigInjectionDelegator;
 
 final class ConfigProvider
 {
@@ -26,11 +28,12 @@ final class ConfigProvider
                 'SharedEventManager'                            => EventManager\SharedEventManager::class,
             ],
             'delegators' => [
+                Application::class => [
+                    ApplicationConfigInjectionDelegator::class,
+                ],
                 EventManager\EventManager::class => [
                     Container\ListenerConfigurationDelegator::class,
                 ],
-            ],
-            'invokables' => [
             ],
             'factories'  => [
                 EventManager\EventManager::class       => Container\EventManagerFactory::class,
