@@ -60,9 +60,9 @@ class ListenerConfigurationDelegator
          * } $config
          */
         $config = $container->get('config');
-        $config['message_listeners'] ??= [];
-        if ($config['message_listeners'] !== []) {
-            foreach($config['message_listeners'] as $spec) {
+        $config['listeners'] ??= [];
+        if ($config['listeners'] !== []) {
+            foreach($config['listeners'] as $spec) {
                 $listener = $container->get($spec['listener']); // will throw exception if factory is not provided
                 $priority = $spec['priority'] ?? static::DEFAULT_PRIORITY;
                 $listener->attach($eventManager, $priority);
