@@ -28,7 +28,7 @@ final class ConfigProvider
                 'SharedEventManager'                            => EventManager\SharedEventManager::class,
             ],
             'delegators' => [
-                Application::class => [
+                Application::class               => [
                     ApplicationConfigInjectionDelegator::class,
                 ],
                 EventManager\EventManager::class => [
@@ -36,8 +36,9 @@ final class ConfigProvider
                 ],
             ],
             'factories'  => [
-                EventManager\EventManager::class       => Container\EventManagerFactory::class,
-                EventManager\SharedEventManager::class => static fn() => new EventManager\SharedEventManager(),
+                EventManager\EventManager::class         => Container\EventManagerFactory::class,
+                EventManager\SharedEventManager::class   => static fn() => new EventManager\SharedEventManager(),
+                Middleware\EventManagerMiddleware::class => Middleware\EventManagerMiddlewareFactory::class,
             ],
         ];
     }
