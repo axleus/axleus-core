@@ -8,14 +8,20 @@ use Laminas\EventManager;
 use Mezzio\Application;
 use Mezzio\Container\ApplicationConfigInjectionDelegator;
 
-final class ConfigProvider
+final class ConfigProvider implements ConfigProviderInterface
 {
     public function __invoke(): array
     {
         return [
-            'dependencies' => $this->getDependencies(),
-            'listeners'    => $this->getListeners(),
+            static::AXLEUS_KEY => $this->getAxleusSettings(),
+            'dependencies'     => $this->getDependencies(),
+            'listeners'        => $this->getListeners(),
         ];
+    }
+
+    public function getAxleusSettings(): array
+    {
+        return [];
     }
 
     public function getDependencies(): array
