@@ -45,6 +45,7 @@ final class ConfigProvider implements ConfigProviderInterface
                 EventManager\EventManager::class         => Container\EventManagerFactory::class,
                 EventManager\SharedEventManager::class   => static fn() => new EventManager\SharedEventManager(),
                 Middleware\EventManagerMiddleware::class => Middleware\EventManagerMiddlewareFactory::class,
+                Middleware\TemplateMiddleware::class     => Middleware\TemplateMiddlewareFactory::class,
             ],
         ];
     }
