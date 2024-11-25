@@ -28,6 +28,7 @@
     "require-dev": {
         "axleus/axleus-debug": "dev-master",
         "axleus/axleus-tooling": "dev-master",
+        "laminas/laminas-i18n": "^2.29",
         "laminas/laminas-coding-standard": "^2.5",
         "phpunit/phpunit": "^10.2",
         "psalm/plugin-phpunit": "^0.18.4",
