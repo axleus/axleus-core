@@ -10,6 +10,9 @@ use Mezzio\Container\ApplicationConfigInjectionDelegator;
 
 final class ConfigProvider implements ConfigProviderInterface
 {
+    public const APP_NAME        = 'app_name';
+    public const DATETIME_FORMAT = 'datetime_format';
+
     public function __invoke(): array
     {
         return [
@@ -21,7 +24,10 @@ final class ConfigProvider implements ConfigProviderInterface
 
     public function getAxleusConfig(): array
     {
-        return [];
+        return [
+            static::APP_NAME        => 'Axleus',
+            static::DATETIME_FORMAT => 'Y-m-d H:i:s',
+        ];
     }
 
     public function getDependencies(): array
