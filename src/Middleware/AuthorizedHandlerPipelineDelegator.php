@@ -35,7 +35,7 @@ final class AuthorizedHandlerPipelineDelegator
 
         if (
             class_exists(\Axleus\Htmx\ConfigProvider::class)
-            && $config[\Axleus\Htmx\ConfigProvider::AXLEUS_KEY][\Axleus\Htmx\ConfigProvider::class]['enable']
+            && $config[\Axleus\Htmx\ConfigProvider::class]['enable']
         ) {
             $pipeline->pipe($factory->prepare(\Axleus\Htmx\Middleware\HtmxMiddleware::class));
         }
