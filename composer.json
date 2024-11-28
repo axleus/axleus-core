@@ -23,7 +23,10 @@
         "laminas/laminas-config": "^3.9",
         "laminas/laminas-form": "^3.21.0",
         "laminas/laminas-i18n": "^2.29",
+        "mezzio/mezzio": "^3.7",
+        "mezzio/mezzio-laminasviewrenderer": "^2.15",
         "mimmi20/mezzio-navigation": "^4.0.1",
+        "mimmi20/mezzio-navigation-laminasviewrenderer": "^4.0.0",
         "psr/clock": "^1.0",
         "ramsey/uuid": "^4.7"
     },
