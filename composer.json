@@ -20,6 +20,7 @@
     ],
     "require": {
         "php": "~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0",
+        "axleus/axleus-authorization": "dev-master",
         "laminas/laminas-config": "^3.9",
         "laminas/laminas-form": "^3.21.0",
         "laminas/laminas-i18n": "^2.29",

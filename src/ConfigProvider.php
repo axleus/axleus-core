@@ -7,6 +7,7 @@ namespace Axleus\Core;
 use Laminas\EventManager;
 use Mezzio\Application;
 use Mezzio\Container\ApplicationConfigInjectionDelegator;
+use Mimmi20\Mezzio\Navigation\NavigationMiddleware;
 
 final class ConfigProvider implements ConfigProviderInterface
 {
@@ -19,6 +20,21 @@ final class ConfigProvider implements ConfigProviderInterface
             static::class  => $this->getAxleusConfig(),
             'dependencies' => $this->getDependencies(),
             'listeners'    => $this->getListeners(),
+            'mezzio-authorization-acl' => $this->getAuthorization()
+        ];
+    }
+
+    public function getAuthorization(): array
+    {
+        return [
+            'resources' => [
+                'home',
+            ],
+            'allow' => [
+                'Guest' => [
+                    'home',
+                ],
+            ],
         ];
     }
 
@@ -38,6 +54,7 @@ final class ConfigProvider implements ConfigProviderInterface
                 'EventManager'                                  => EventManager\EventManager::class,
                 EventManager\SharedEventManagerInterface::class => EventManager\SharedEventManager::class,
                 'SharedEventManager'                            => EventManager\SharedEventManager::class,
+                NavigationMiddleware::class                     => Middleware\NavigationMiddleware::class,
             ],
             'delegators' => [
                 Application::class               => [
@@ -52,6 +69,7 @@ final class ConfigProvider implements ConfigProviderInterface
                 EventManager\SharedEventManager::class   => static fn() => new EventManager\SharedEventManager(),
                 Middleware\EventManagerMiddleware::class => Middleware\EventManagerMiddlewareFactory::class,
                 Middleware\TemplateMiddleware::class     => Middleware\TemplateMiddlewareFactory::class,
+                Middleware\NavigationMiddleware::class              => Middleware\NavigationMiddlewareFactory::class,
             ],
         ];
     }
