@@ -7,27 +7,18 @@ updates:
       interval: "daily"
       time: "02:00"
       timezone: "America/Chicago"
-
     open-pull-request-limit: 10
-
     reviewers:
       - "tyrsson"
-
     assignees:
       - "tyrsson"
-
     labels:
       - "dependencies"
-
-    versioning-strategy: "increase"
-
+    versioning-strategy: "increase-if-necessary"
     target-branch: "master"
-
     commit-message:
       include: "scope"
       prefix: "composer"
-
     ignore:
       - dependency-name: "psr/container"
-
     rebase-strategy: "auto"
