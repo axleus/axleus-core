@@ -6,6 +6,6 @@ namespace Axleus\Core;
 
 interface ConfigProviderInterface
 {
-    public const string CONFIG_MANAGER_TARGET_FILE = '';
+    public const CONFIG_MANAGER_TARGET_FILE = '';
     public function getAxleusConfig(): array;
 }
