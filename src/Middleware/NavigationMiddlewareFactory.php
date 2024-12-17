@@ -13,11 +13,13 @@ declare(strict_types = 1);
 namespace Axleus\Core\Middleware;
 
 use Axleus\Authorization\AuthorizationInterface;
+use Laminas\View\HelperPluginManager;
 use Mezzio\Helper\UrlHelper;
 use Mezzio\Router\RouterInterface;
 use Mimmi20\Mezzio\Navigation\Config;
 use Mimmi20\Mezzio\Navigation\Exception;
-//use Mimmi20\Mezzio\GenericAuthorization\AuthorizationInterface;
+use Mimmi20\Mezzio\Navigation\LaminasView\View\Helper\Navigation;
+//use Mimmi20\Mezzio\Navigation\LaminasView\View\Helper\Navigation\PluginManager;
 use Mimmi20\Mezzio\Navigation\Exception\InvalidArgumentException;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
@@ -139,9 +141,12 @@ final readonly class NavigationMiddlewareFactory
             );
         }
 
+        $pluginManager = $container->get(HelperPluginManager::class);
+        $navigation    = $pluginManager->get(Navigation::class);
+
         assert($navigationConfig instanceof Config\NavigationConfigInterface);
         assert($urlHelper instanceof UrlHelper);
 
-        return new NavigationMiddleware($navigationConfig, $urlHelper, $authorization, $router);
+        return new NavigationMiddleware($navigationConfig, $urlHelper, $authorization, $router, $navigation);
     }
 }
