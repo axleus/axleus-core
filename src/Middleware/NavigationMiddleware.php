@@ -13,10 +13,12 @@ declare(strict_types = 1);
 namespace Axleus\Core\Middleware;
 
 use Axleus\Authorization\AuthorizationInterface;
+use Mezzio\Authentication\UserInterface;
 use Mezzio\Helper\UrlHelper;
 use Mezzio\Router\RouteResult;
 use Mezzio\Router\RouterInterface;
 use Mimmi20\Mezzio\Navigation\Config;
+use Mimmi20\Mezzio\Navigation\LaminasView\View\Helper\Navigation;
 //use Mimmi20\Mezzio\GenericAuthorization\AuthorizationInterface;
 use Override;
 use Psr\Http\Message\ResponseInterface;
@@ -33,8 +35,9 @@ final readonly class NavigationMiddleware implements MiddlewareInterface
     public function __construct(
         private Config\NavigationConfigInterface $navigationConfig,
         private UrlHelper $urlHelper,
-        private AuthorizationInterface | null $authorization = null,
-        private RouterInterface | null $router = null,
+        private AuthorizationInterface|null $authorization = null,
+        private RouterInterface|null $router = null,
+        private Navigation|null $navigation = null,
     ) {
         // nothing to do
     }
@@ -58,6 +61,11 @@ final readonly class NavigationMiddleware implements MiddlewareInterface
         $this->navigationConfig->setRequest($request);
         $this->navigationConfig->setAuthorization($this->authorization);
         $this->navigationConfig->setRouter($this->router);
+
+        $this->navigation->setAuthorization($this->authorization);
+        $this->navigation->setRole(
+            $request->getAttribute(UserInterface::class)->getRoles()[0]
+        );
 
         return $handler->handle($request);
     }
