@@ -64,7 +64,7 @@ final readonly class NavigationMiddleware implements MiddlewareInterface
 
         $this->navigation->setAuthorization($this->authorization);
         $this->navigation->setRole(
-            $request->getAttribute(UserInterface::class)->getRoles()[0]
+            $request->getAttribute(UserInterface::class)?->getRoles()[0]
         );
 
         return $handler->handle($request);
