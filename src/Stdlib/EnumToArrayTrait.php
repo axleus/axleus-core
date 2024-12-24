@@ -8,7 +8,7 @@ use function array_column;
 
 trait EnumToArrayTrait
 {
-    public static function names(?string $treatment = null): array
+    public static function names(?callable $treatment = null): array
     {
         $names = array_column(self::cases(), 'name');
         if ($treatment === null) {
@@ -21,7 +21,7 @@ trait EnumToArrayTrait
         return $normalized;
     }
 
-    public static function values(?string $treatment = null): array
+    public static function values(?callable $treatment = null): array
     {
         $values = array_column(self::cases(), 'value');
         if ($treatment === null) {
@@ -36,21 +36,18 @@ trait EnumToArrayTrait
 
     public static function toArray(
         bool $normalize = false,
-        ?string $nameTreatment = null,
-        ?string $valueTreatment = null,
+        ?callable $nameTreatment = null,
+        ?callable $valueTreatment = null,
     ): array {
         if (empty(self::values())) {
             return self::names();
         }
-
         if (empty(self::names())) {
             return self::values();
         }
-
         if ($normalize) {
             return array_combine(self::names($nameTreatment), self::values($valueTreatment));
         }
-
         return array_column(self::cases(), 'name', 'value');
     }
 }
