@@ -17,12 +17,6 @@ use function gettype;
 use function is_object;
 use function sprintf;
 
-/**
- * @psalm-type MessageListenerSpec = array{
- *     listener: non-empty-string,
- *     priority?: int,
- * }
- */
 class ListenerConfigurationDelegator
 {
     private const DEFAULT_PRIORITY = 1;
@@ -52,20 +46,11 @@ class ListenerConfigurationDelegator
             return $eventManager;
         }
 
-        /**
-         * The array shape is forced here as it cannot be inferred
-         *
-         * @psalm-var array{
-         *     message_listeners?: list<MessageListenerSpec>,
-         * } $config
-         */
-        $config = $container->get('config');
-        $config['listeners'] ??= [];
+        $config = $container->get('config')['listeners'] ?? [];
         if ($config['listeners'] !== []) {
-            foreach($config['listeners'] as $spec) {
-                $listener = $container->get($spec['listener']); // will throw exception if factory is not provided
-                $priority = $spec['priority'] ?? static::DEFAULT_PRIORITY;
-                $listener->attach($eventManager, $priority);
+            foreach($config['listeners'] as $listener) {
+                $listener = $container->get($listener);
+                $listener->attach($eventManager);
             }
         }
 
