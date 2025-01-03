@@ -46,9 +46,9 @@ class ListenerConfigurationDelegator
             return $eventManager;
         }
 
-        $config = $container->get('config')['listeners'] ?? [];
-        if ($config['listeners'] !== []) {
-            foreach($config['listeners'] as $listener) {
+        $listeners = $container->get('config')['listeners'] ?? [];
+        if ($listeners !== []) {
+            foreach($listeners as $listener) {
                 $listener = $container->get($listener);
                 $listener->attach($eventManager);
             }
