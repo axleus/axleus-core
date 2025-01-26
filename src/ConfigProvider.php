@@ -17,10 +17,11 @@ final class ConfigProvider implements ConfigProviderInterface
     public function __invoke(): array
     {
         return [
-            static::class  => $this->getAxleusConfig(),
-            'dependencies' => $this->getDependencies(),
-            'listeners'    => $this->getListeners(),
-            'mezzio-authorization-acl' => $this->getAuthorization()
+            static::class              => $this->getAxleusConfig(),
+            'dependencies'             => $this->getDependencies(),
+            'listeners'                => $this->getListeners(),
+            'mezzio-authorization-acl' => $this->getAuthorization(),
+            'navigation'               => $this->getNavigation(),
         ];
     }
 
@@ -63,6 +64,9 @@ final class ConfigProvider implements ConfigProviderInterface
                 EventManager\EventManager::class => [
                     Container\ListenerConfigurationDelegator::class,
                 ],
+                // \App\Handler\HomePageHandler::class => [
+                //     Middleware\AuthorizedHandlerPipelineDelegator::class,
+                // ],
             ],
             'factories'  => [
                 EventManager\EventManager::class         => Container\EventManagerFactory::class,
@@ -77,5 +81,18 @@ final class ConfigProvider implements ConfigProviderInterface
     public function getListeners(): array
     {
         return [];
+    }
+
+    public function getNavigation(): array
+    {
+        return [
+            'default' => [
+                [
+                    'label' => 'Home',
+                    'route' => 'home',
+                    'class' => 'nav-link',
+                ],
+            ],
+        ];
     }
 }
