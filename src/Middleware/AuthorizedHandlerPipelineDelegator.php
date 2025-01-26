@@ -24,6 +24,7 @@ final class AuthorizedHandlerPipelineDelegator
         $pipeline = new MiddlewarePipe();
         $pipeline->pipe($factory->prepare(SessionMiddleware::class));
         $pipeline->pipe($factory->prepare(EventManagerMiddleware::class));
+
         if (class_exists(\Axleus\UserManager\ConfigProvider::class)) {
             $pipeline->pipe($factory->prepare(\Axleus\UserManager\Middleware\IdentityMiddleware::class));
         }
@@ -31,6 +32,10 @@ final class AuthorizedHandlerPipelineDelegator
         if (class_exists(AuthorizationMiddleware::class)) {
             $pipeline->pipe($factory->prepare(AuthorizationMiddleware::class));
         }
+
+        // if (class_exists(\Axleus\Log\ConfigProvider::class)) {
+        //     $pipeline->pipe($factory->prepare(\Axleus\Log\Middleware\MonologMiddleware::class));
+        // }
 
         if (class_exists(\Axleus\Message\ConfigProvider::class)) {
             $pipeline->pipe($factory->prepare(\Axleus\Message\Middleware\MessageMiddleware::class));
