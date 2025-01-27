@@ -88,9 +88,9 @@ final class ConfigProvider implements ConfigProviderInterface
         return [
             'default' => [
                 [
+                    'class' => 'nav-link',
                     'label' => 'Home',
                     'route' => 'home',
-                    'class' => 'nav-link',
                 ],
             ],
         ];
